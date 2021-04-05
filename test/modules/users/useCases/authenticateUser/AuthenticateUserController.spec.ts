@@ -16,8 +16,6 @@ describe('AuthenticateUserController Tests', () => {
 
     await connection.runMigrations();
 
-    await connection.query('DELETE FROM users');
-
     const repository = getRepository(User);
 
     const id = uuid();
@@ -34,6 +32,8 @@ describe('AuthenticateUserController Tests', () => {
   });
 
   afterAll(async () => {
+    await connection.query('DELETE FROM users');
+
     await connection.close();
   });
 

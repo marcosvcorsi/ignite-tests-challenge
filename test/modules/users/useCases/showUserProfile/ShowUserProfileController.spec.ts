@@ -21,6 +21,8 @@ describe('ShowUserProfileController Tests', () => {
   })
 
   afterAll(async () => {
+    await connection.query('DELETE FROM users');
+
     await connection.close();
   });
 
