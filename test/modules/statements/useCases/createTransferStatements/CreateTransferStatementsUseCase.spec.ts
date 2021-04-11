@@ -32,7 +32,7 @@ describe('CreateTransferStatementsUseCase Tests', () => {
 
   it('should not be able to create transfer statements when sender does not exists', async () => {
     await expect(createTransferStatementsUseCase.execute({
-      sender_id: 'invalidsenderid',
+      sender_id: 'anysenderid',
       receiver_id: 'anyreceiverid',
       amount: 100,
       description: 'anydesc'
