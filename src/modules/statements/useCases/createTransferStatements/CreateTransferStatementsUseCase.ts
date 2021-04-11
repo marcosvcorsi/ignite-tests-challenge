@@ -3,7 +3,7 @@ import { IUsersRepository } from "../../../users/repositories/IUsersRepository";
 import { OperationType, Statement } from "../../entities/Statement";
 import { IStatementsRepository } from "../../repositories/IStatementsRepository";
 import { CreateTransferStatementsError } from "./CreateTransferStatementsError";
-import { ICreateTransferStatements } from "./ICreateTransferStatementsDto";
+import { ICreateTransferStatementsDTO } from "./ICreateTransferStatementsDTO";
 
 type IResponse = {
   senderStatement: Statement,
@@ -19,7 +19,7 @@ export class CreateTransferStatementsUseCase {
     private readonly statementsRepository: IStatementsRepository
   ) {}
 
-  async execute({ sender_id, receiver_id, amount, description }: ICreateTransferStatements): Promise<IResponse> {
+  async execute({ sender_id, receiver_id, amount, description }: ICreateTransferStatementsDTO): Promise<IResponse> {
     if(amount < 0) {
       throw new CreateTransferStatementsError.InvalidAmount();
     }
