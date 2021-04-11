@@ -108,7 +108,7 @@ describe('CreateTransferStatementsUseCase Tests', () => {
     expect(response).toBeDefined();
     expect(response.senderStatement.receiver_id).toBe(receiver.id);
     expect(response.receiverStatement.sender_id).toBe(sender.id);
-    expect(response.senderStatement.amount).toBe(-Math.abs(amount));
+    expect(response.senderStatement.amount).toBe(amount);
     expect(response.receiverStatement.amount).toBe(amount);
   })
 })
