@@ -6,8 +6,8 @@ import { CreateTransferStatementsError } from "./CreateTransferStatementsError";
 import { ICreateTransferStatements } from "./ICreateTransferStatementsDto";
 
 type IResponse = {
-  fromStatement: Statement,
-  toStatement: Statement
+  senderStatement: Statement,
+  receiverStatement: Statement
 }
 
 @injectable()
@@ -19,25 +19,25 @@ export class CreateTransferStatementsUseCase {
     private readonly statementsRepository: IStatementsRepository
   ) {}
 
-  async execute({ from, to, amount, description }: ICreateTransferStatements): Promise<IResponse> {
+  async execute({ sender_id, receiver_id, amount, description }: ICreateTransferStatements): Promise<IResponse> {
     if(amount < 0) {
       throw new CreateTransferStatementsError.InvalidAmount();
     }
 
-    const fromUser = await this.usersRepository.findById(from);
+    const sender = await this.usersRepository.findById(sender_id);
 
-    if(!fromUser) {
+    if(!sender) {
       throw new CreateTransferStatementsError.UserNotFound();
     }
 
-    const toUser = await this.usersRepository.findById(to);
+    const receiver = await this.usersRepository.findById(receiver_id);
 
-    if(!toUser) {
+    if(!receiver) {
       throw new CreateTransferStatementsError.UserDestinationNotFound();
     }
 
     const { balance } = await this.statementsRepository.getUserBalance({
-      user_id: from,
+      user_id: sender_id,
       with_statement: false
     })
 
@@ -45,24 +45,26 @@ export class CreateTransferStatementsUseCase {
       throw new CreateTransferStatementsError.InsufficientFunds();
     }
 
-    const fromStatement = await this.statementsRepository.create({
+    const senderStatement = await this.statementsRepository.create({
       amount: -Math.abs(amount),
       description,
       type: 'transfer' as OperationType,
-      user_id: from
+      user_id: sender_id,
+      receiver_id,
     });
 
 
-    const toStatement = await this.statementsRepository.create({
+    const receiverStatement = await this.statementsRepository.create({
       amount,
       description,
       type: OperationType.TRANSFER,
-      user_id: to
+      user_id: receiver_id,
+      sender_id,
     });
 
     return {
-      fromStatement,
-      toStatement
+      senderStatement,
+      receiverStatement
     }
   }
 }

@@ -11,8 +11,8 @@ export class CreateTransferStatementsController {
     const createTransferStatementsUseCase = container.resolve(CreateTransferStatementsUseCase);
 
     const statements = await createTransferStatementsUseCase.execute({
-      from: id,
-      to: user_id,
+      sender_id: id,
+      receiver_id: user_id,
       amount,
       description,
     })
