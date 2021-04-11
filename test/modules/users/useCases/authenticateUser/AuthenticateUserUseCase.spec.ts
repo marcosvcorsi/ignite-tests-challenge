@@ -2,7 +2,6 @@ import { hash } from "bcryptjs";
 import { IUsersRepository } from "../../../../../src/modules/users/repositories/IUsersRepository";
 import { AuthenticateUserUseCase } from "../../../../../src/modules/users/useCases/authenticateUser/AuthenticateUserUseCase"
 import { IncorrectEmailOrPasswordError } from "../../../../../src/modules/users/useCases/authenticateUser/IncorrectEmailOrPasswordError";
-import { AppError } from "../../../../../src/shared/errors/AppError";
 import { UsersRepositoryInMemory } from "../../repositories/UsersRepositoryInMemory";
 
 describe('AuthenticateUserUseCase Tests', () => {
